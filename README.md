@@ -187,20 +187,17 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ---
 
-## Support
+## Support--
 
 * **Issues**: Please report any bugs or issues via [GitHub Issues](https://github.com/puli-pro/data_analytics/issues)
-* **Email**: [puli.pro.dev@gmail.com](mailto:puli.pro.dev@gmail.com)
-* **LinkedIn**: Coming soon
+* **Email**: [pulipavan696@gmail.com](mailto:pulipavan696@gmail.com)
+* **LinkedIn**: [Solige Pullaiah](https://www.linkedin.com/in/solige-pullaiah-478462270/)
 
 ---
 
 ## Acknowledgements
 
 * Data sources: **ICC** and **ESPN Cricinfo**.
-* Inspiration: CodeBasics' “Best XI” challenge for cricket data analysis [LinkedIn](https://www.linkedin.com/in/sarat-dharmana).
-* Thanks to the open-source cricket analytics community for schema and methodology ideas.
-
 ---
 
 *Made with ❤️ and a deep love for cricket!*
