@@ -1,8 +1,12 @@
-# 🏏 T20 Cricket World Cup Analytics
 
-A full stack, end-to-end pipeline that scrapes live match data, cleans and models it into star-schema tables, and powers interactive Power BI dashboards for uncovering player insights and selecting the **ultimate T20 XI**.
+# 🏏 **T20 Cricket World Cup Analytics**
+
+A full-stack, end-to-end data pipeline that automates the collection of live match data, processes it into star-schema tables, and creates interactive Power BI dashboards for uncovering insights on player performance and selecting the **ultimate T20 XI**.
+
+---
 
 ## 📚 Table of Contents
+
 1. [Project Overview](#project-overview)
 2. [Features](#features)
 3. [Folder Structure](#folder-structure)
@@ -15,149 +19,192 @@ A full stack, end-to-end pipeline that scrapes live match data, cleans and model
 10. [Support](#support)
 11. [Acknowledgements](#acknowledgements)
 
+---
+
 ## Project Overview
-Cricket analytics projects often stop at notebook-level exploration. **T20 Cricket World Cup Analytics** goes further—automating data collection, producing clean fact/dimension tables, and shipping polished dashboards that help coaches or fans answer questions such as:
 
-* Which bowlers concede the fewest runs in the death overs?  
-* Who are the most reliable middle-order anchors?  
-* What is the win probability for a hypothetical XI chosen on specific constraints?
+**T20 Cricket World Cup Analytics** aims to take cricket analytics a step further by not only exploring the data in Jupyter notebooks but by automating the collection, transformation, and visualization of key metrics for team performance, player evaluation, and match outcomes.
 
-Data is harvested with simple Node scripts, transformed in Python, and visualised in Power BI. The result is a reproducible workflow you can replicate for any cricket tournament.
+The pipeline scrapes live match data from **ESPN Cricinfo** and **ICC** websites, processes it into structured, star-schema tables, and then visualizes the insights through Power BI dashboards. Whether you're a coach, analyst, or cricket enthusiast, this tool helps answer questions like:
+
+* Which bowlers are most effective in the death overs?
+* Who are the most reliable middle-order anchors?
+* What is the win probability for a hypothetical XI selected with specific constraints?
+
+The process is fully automated and can be replicated for any T20 tournament.
+
+---
 
 ## Features
-| Category | Highlight |
-|----------|-----------|
-| 🔎 **Web scraping** | Four Node scripts pull batting, bowling, match results and player metadata directly from ICC/ESPNcricinfo pages [1] |
-| 🧹 **Data cleaning** | Jupyter notebook `t20_data_preprocessing.ipynb` handles missing values, joins, schema creation and exports tidy CSVs |
-| 🗄 **Star-schema tables** | -  `dim_players`, `dim_match_summary`  -  `fact_batting_summary`, `fact_bowling_summary` |
-| 📊 **Dashboards** | Three `.pbix` files with DAX-powered KPIs, slicers and “Best 11” team selector |
-| 🧑‍💻 **Code-free tips** | PDF slide-decks on parameter scoping, dashboard layout and Power Query best practices |
-| 🏷 **Stand-alone assets** | Excel workbook of all DAX measures for quick copy-paste |
-| 🚀 **Extensible** | Modular scripts → slot in new tournaments by changing only the source URLs |
+
+| Category                   | Highlight                                                                                                                  |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 🔎 **Web Scraping**        | Four Node scripts that pull batting, bowling, match results, and player metadata from **ICC** and **ESPN Cricinfo**        |
+| 🧹 **Data Cleaning**       | Jupyter notebook (`t20_data_preprocessing.ipynb`) to clean and preprocess data, filling missing values and creating schema |
+| 🗄 **Star-schema Tables**  | Generates four key star-schema tables: `dim_players`, `dim_match_summary`, `fact_batting_summary`, `fact_bowling_summary`  |
+| 📊 **Power BI Dashboards** | Three fully interactive Power BI files for analyzing player performance, selecting teams, and more                         |
+| 🧑‍💻 **Code-Free Tips**   | PDF guides on Power Query, dashboard layout, and DAX best practices for easy Power BI integration                          |
+| 🏷 **Stand-Alone Assets**  | Excel workbook with all DAX measures and calculated columns for easy copy-paste into other Power BI projects               |
+| 🚀 **Extensibility**       | Modular scripts that can be easily adapted for future tournaments by modifying only the source URLs                        |
+
+---
 
 ## Folder Structure
+
 ```
 data_analytics/
 │
-├── web_scrapping_codes/     # NodeJS scrapers (*.js)
-├── t20_json_files/          # Raw API responses
-├── t20_csv_files/           # Modelled star-schema tables
+├── web_scrapping_codes/     # Node.js scripts for data scraping (*.js)
+├── t20_json_files/          # Raw API responses (JSON)
+├── t20_csv_files/           # Transformed star-schema tables (CSV format)
 │   ├── dim_players.csv
 │   ├── dim_match_summary.csv
 │   ├── fact_batting_summary.csv
 │   └── fact_bowling_summary.csv
 │
-├── t20_data_preprocessing.ipynb
-├── *.pbix                   # Power BI dashboards
-├── DAX Measures and Calculated columns.xlsx
-└── docs/                    # PDFs, PPT mock-ups
+├── t20_data_preprocessing.ipynb  # Jupyter notebook for data preprocessing
+├── *.pbix                    # Power BI Dashboard files
+├── DAX Measures and Calculated columns.xlsx  # Excel file with DAX formulas
+└── docs/                     # Documentation (PDF, PPTs)
 ```
 
+---
+
 ## Quick Start
+
+To get started with this project, follow these steps:
+
+### 1. Clone the repository
+
 ```bash
-# 1. Clone
 git clone https://github.com/puli-pro/data_analytics.git
 cd data_analytics
+```
 
-# 2. Scrape latest tournament data
+### 2. Scrape the latest tournament data
+
+Navigate to the `web_scrapping_codes` directory and install dependencies:
+
+```bash
 cd web_scrapping_codes
-npm install           # installs axios / cheerio etc.
+npm install  # Installs dependencies like axios, cheerio, etc.
+```
+
+Run the Node.js scripts to scrape match results, batting, bowling, and player data:
+
+```bash
 node t20_wc_match_results.js
 node t20_wc_batting_summary.js
 node t20_wc_bowling_summary.js
 node t20_wc_player_info.js
-
-# 3. Transform to analytics-ready tables
-cd ..
-pip install -r requirements.txt   # pandas, numpy, jupyter
-jupyter notebook t20_data_preprocessing.ipynb
-# executes all cells → writes CSVs to t20_csv_files/
-
-# 4. Visualise
-# Open any *.pbix file with Power BI Desktop and click 'Refresh'
 ```
 
-> **Tip:** No local Power BI? Publish the PBIX to Power BI Service and share the live dashboard link.
+### 3. Transform the data into analytics-ready tables
+
+Install Python dependencies and run the preprocessing notebook:
+
+```bash
+cd ..
+pip install -r requirements.txt  # Install pandas, numpy, jupyter
+jupyter notebook t20_data_preprocessing.ipynb  # Executes all cells and generates CSVs
+```
+
+### 4. Visualize in Power BI
+
+Open any of the `.pbix` files in **Power BI Desktop**, and click ‘Refresh’ to load the latest data. If you don’t have Power BI Desktop installed, you can publish the PBIX file to Power BI Service for cloud access.
+
+---
 
 ## Detailed Usage
 
-### 1 ️⃣ Data Collection  
-Scripts rely on **Node 18+**. URLs are defined at the top of each file; change them to ingest different seasons.
+### 1️⃣ **Data Collection**
 
-### 2 ️⃣ Data Preparation  
-The notebook performs:
-* JSON flattening, schema alignment  
-* Calculated `match_id` to enable table joins  
-* Cleaning `dismissal` anomalies and string artefacts  
-* Export to four core tables with consistent primary keys [1]
+The Node.js scripts rely on **Node 18+** and Axios/Cheerio for web scraping. You can change the URLs in the scripts to collect data from other tournaments or seasons.
 
-### 3 ️⃣ Analytics & Dashboarding  
-Open `Stage-3.pbix` for the final “Best XI” report, featuring:
-* Role-based ranking parameters (openers, finishers, pacers …)  
-* What-if selectors to tune weightings  
-* Tooltip pages with player career summary cards  
+### 2️⃣ **Data Preparation**
 
-### 4 ️⃣ Extending  
-Add a new tournament by dropping fresh JSON into `t20_json_files/`, adjusting notebook paths, and refreshing the dashboard—no DAX changes required.
+The notebook `t20_data_preprocessing.ipynb` performs the following operations:
+
+* Flattens nested JSON data.
+* Aligns the schema to ensure consistency.
+* Generates primary keys for joining tables (e.g., `match_id`).
+* Cleans up anomalies in the `dismissal` column and string artifacts.
+* Exports the data into four core tables in CSV format for further analysis.
+
+### 3️⃣ **Analytics & Dashboarding**
+
+The Power BI dashboards (`Stage-1.pbix`, `Stage-2.pbix`, and `Stage-3.pbix`) allow you to:
+
+* Evaluate player performance based on role-specific KPIs (e.g., openers, finishers).
+* Use slicers to filter data and test various team selections.
+* Visualize player career stats and match performances.
+
+### 4️⃣ **Extending for New Tournaments**
+
+To add a new tournament:
+
+1. Drop fresh JSON files into the `t20_json_files/` directory.
+2. Adjust paths in the preprocessing notebook.
+3. Refresh the Power BI dashboard to visualize the new data.
+
+No changes are needed in the DAX calculations or Power BI queries.
+
+---
 
 ## Tech Stack
-| Layer | Technology |
-|-------|------------|
-| Data ingestion | Node.js, Axios/Cheerio |
-| Transformation | Python 3, Pandas, Jupyter |
-| Storage | Flat files (JSON → CSV) |
-| Semantic model | Power BI, DAX |
-| Visualisation | Power BI Desktop / Service |
+
+| Layer                   | Technology                          |
+| ----------------------- | ----------------------------------- |
+| **Data Ingestion**      | Node.js, Axios, Cheerio             |
+| **Data Transformation** | Python 3, Pandas, Jupyter Notebooks |
+| **Storage**             | Flat files (JSON → CSV)             |
+| **Semantic Modeling**   | Power BI, DAX                       |
+| **Visualization**       | Power BI Desktop, Power BI Service  |
+
+---
 
 ## Contributing
-1. Fork the repo and create a feature branch (`feat/`).  
-2. Follow the existing code style (ESLint / Black).  
-3. Commit descriptive messages, open a PR against **main**, and link any related issues.  
-4. For dashboard tweaks, include a screenshot or GIF in the PR description.
+
+1. **Fork** the repository and create a new feature branch (e.g., `feat/your-feature`).
+2. Ensure your code follows the existing code style (ESLint for JavaScript, Black for Python).
+3. Commit with clear and descriptive messages.
+4. Submit a **Pull Request** (PR) to merge your changes into the **main** branch. Include screenshots or GIFs for UI changes (e.g., Power BI dashboards).
+
+---
 
 ## Roadmap
-- ☑️ Current: 2022 T20 World Cup dashboards  
-- ⏳ Next: Automate daily data refresh with GitHub Actions  
-- ⏳ Future: Streamlit app for quick player comparisons  
-- ⏳ Stretch: Auto-publishing to a public Power BI workspace
+
+* ☑️ **Current**: 2022 T20 World Cup Dashboards
+* ⏳ **Next**: Automate daily data refresh using GitHub Actions
+* ⏳ **Future**: Develop a Streamlit app for quick player comparisons
+* ⏳ **Stretch**: Auto-publish Power BI reports to a public workspace
+
+---
 
 ## License
-Distributed under the **MIT License**—see [`LICENSE`](LICENSE) for details.
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
+
+---
 
 ## Support
-* **Issues:** [GitHub Issues](https://github.com/puli-pro/data_analytics/issues)  
-* **Email:** `puli.pro.dev@gmail.com`  
-* **LinkedIn:** Coming soon
+
+* **Issues**: Please report any bugs or issues via [GitHub Issues](https://github.com/puli-pro/data_analytics/issues)
+* **Email**: [puli.pro.dev@gmail.com](mailto:puli.pro.dev@gmail.com)
+* **LinkedIn**: Coming soon
+
+---
 
 ## Acknowledgements
-* Raw data courtesy of **ICC** & **ESPN Cricinfo**.  
-* Dashboard inspiration from the CodeBasics “Best 11” challenge [1].  
-* Thanks to the open-source cricket-analytics community for schema ideas.
+
+* Data sources: **ICC** and **ESPN Cricinfo**.
+* Inspiration: CodeBasics' “Best XI” challenge for cricket data analysis [LinkedIn](https://www.linkedin.com/in/sarat-dharmana).
+* Thanks to the open-source cricket analytics community for schema and methodology ideas.
+
+---
+
+*Made with ❤️ and a deep love for cricket!*
+
+---
 
 
-Made with ❤️ and a lot of cricket fandom
-
-
-[1] https://www.linkedin.com/in/sarat-dharmana
-[2] https://github.com/puli-pro/data
-[3] https://github.com/puli-pro/data_analytics
-[4] https://github.com/puli-pro/data_analytics/blob/main/t20_data_preprocessing.ipynb
-[5] https://github.com/puli-pro/data_analytics/tree/main/t20_csv_files
-[6] https://github.com/puli-pro/data_analytics/tree/main/t20_json_files
-[7] https://github.com/puli-pro/data_analytics/tree/main/web_scrapping_codes
-[8] https://github.com/puli-pro/data_analytics/blob/main/Codebasics%20Cricket%20Best%2011.pbix
-[9] https://github.com/puli
-[10] https://www.scribd.com/document/836505746/Pre-Processing-techniques-ipynb-Colab
-[11] https://github.com/VBS-03/T20-Cricket-World-Cup-Analysis
-[12] https://www.scribd.com/document/872344193/Data-Preprocessing-for-Machine-Learning-in-Python
-[13] https://www.linkedin.com/posts/sandeep-kolar-baburao_cricketanalytics-datascience-powerbi-activity-7199329943833436160-05gC
-[14] https://in.linkedin.com/in/ankitha-1107-sr
-[15] https://www.linkedin.com/pulse/detailed-preprocessing-process-machine-learning-python-leonardo-a
-[16] https://www.kaggle.com/datasets/imrankhan17/t20matches
-[17] https://github.com/manavmodi22/Preprocessing-for-Machine-Learning-in-Python/blob/main/data_preprocessing_chapter3_exercise.ipynb
-[18] https://github.com/Musa70/Data-Preprocessing
-[19] https://www.kaggle.com/code/mirajdobariya/preprocessing/log
-[20] https://www.scribd.com/document/666089078/Copy-of-Data-preprocessing-tools-ipynb-Colaboratory
-[21] https://github.com/manavmodi22/Preprocessing-for-Machine-Learning-in-Python/blob/main/data_preprocessing_chapter4_exercise.ipynb
-[22] https://github.com/Snehomoy100/Data-PreProcessing-using-Python/blob/main/data_preprocessing_tools.ipynb
-[23] https://github.com/arupbhunia/Data-Pre-processing/blob/master/Data_Preprocessing.ipynb
